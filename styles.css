@@ -1,0 +1,314 @@
+body{
+    background-color: var(--bg);
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    --bg: #0B1220;
+    --surface: #152238;
+    --primary: #1F3866;
+    --primary-light: #4F73C4;
+    --text: #E8EEF9;
+    --accent: #F4A261;
+    cursor: default;
+}
+
+.light-theme {
+    --bg: #F8F4EE;
+    --surface: #FFFDF9;
+
+    --primary: #5B6C8F;
+    --primary-light: #8CA0C9;
+
+    --text: #2F2A24;
+    --accent: #D97706;
+}
+
+
+.start-screen{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+h1{
+    text-align: center;
+    margin: 0;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h3{
+    margin: 0;
+}
+
+.start-screen .settings-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+}
+
+.option{
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.single-player,
+.two-player{
+    background-color:  var(--primary);
+    text-align: center;
+    align-content: center;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 2em;
+    border-radius: 0.4em;
+}
+
+h3{
+    text-align: center;
+    align-content: center;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.single-player:hover,
+.two-player:hover{
+    background-color: var(--primary-light);
+}
+
+.player-screen{
+    display: grid;
+    grid-template-columns: 10vw auto 10vw;
+    height: 100vh;
+}
+
+.back-btn,
+.settings-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em;
+}
+
+.player-screen .main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.player-screen .main-content input{
+    width: 20rem;
+    height: 3rem;
+    background-color: var(--primary);
+    border: 0px solid;
+    text-align: center;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 0.4em;
+    font-size: large;
+}
+
+.player-screen .main-content button{
+    width: 15rem;
+    height: 3rem;
+    background-color: var(--primary);
+    border: 0px solid;
+    text-align: center;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 0.4em;
+    font-size: large;
+    margin: 2rem;
+}
+
+.player-screen .main-content input:focus{
+    outline: none;
+    border: none;
+    background-color: var(--primary-light);
+}
+
+.player-screen .main-content button:hover{
+    color: var(--accent);
+}
+
+.difficulty-screen{
+    display: grid;
+    grid-template-columns: 10vw auto 10vw;
+    height: 100vh;
+}
+
+.difficulty-screen .main-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.difficulty-screen .main-content button{
+    width: 15em;
+    height: 3em;
+    background-color: var(--primary);
+    border: 0px;
+    border-radius: 0.4em;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: large;
+}
+
+.difficulty-screen .main-content button:hover{
+    background-color: var(--primary-light);
+}
+
+.back-btn,
+.settings-btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1em;
+}
+
+.settings-screen{
+    display: grid;
+    grid-template-columns: 10vw auto 10vw;
+    height: 100vh;
+    width: 100vw;
+}
+
+.settings-screen .main-content {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.settings-screen .main-content button{
+    width: 15em;
+    height: 3em;
+    background-color: var(--primary);
+    border: 0px;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: large;
+    border-radius: 0.4em;
+}
+
+.settings-screen .main-content button:hover{
+    background-color: var(--primary-light);
+}
+
+.game-screen{
+    display: grid;
+    grid-template-columns: 10vw auto 10vw;
+    height: 100vh;
+    width: 100vw;
+}
+
+.game-screen .main-content {
+    display: grid;
+    grid-template-rows: auto 10vh;
+}
+
+.game-screen .main-content .board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-screen .main-content .board .board-surface{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    background-color: var(--text);
+    height: 70%;
+    width: 70%;
+    gap: 0.1em;
+}
+
+.game-screen .main-content .board .board-surface .cell{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: var(--surface);
+}
+
+.game-screen .main-content .board .board-surface .cell:hover{
+    background-color: var(--primary);
+}
+
+.score-card{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3em;
+}
+
+.x-score,
+.o-score,
+.tie-score {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.score-value{
+    font-size: 1.5em;
+}
+
+.display{
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-end;
+}
+
+.game-over-screen{
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.game-over-screen #result-screen {
+    display: flex;
+    width: 100vw;
+    height: 30vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-over-screen #result-screen .result{
+    color: white;
+}
+
+.game-over-screen #result-screen .text{
+    color: white;
+}
+
+svg{
+    color: var(--text);
+}
+
+.hidden{
+    display: none;
+}
+

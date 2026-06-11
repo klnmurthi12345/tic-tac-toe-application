@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-theme">
+    <div id="start-screen" class="start-screen">
+        <h1>Tic-Tac-Toe Game</h1>
+        <div class="option">
+            <div class="single-player">Single Player</div>
+            <div class="two-player">Two Player</div>
+        </div>
+        <div class="settings-btn">
+            <svg id="settings-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+            <h3>Settings</h3>
+        </div>
+    </div>
+    <div id="player-screen" class="player-screen hidden">
+        <div class="back-btn">
+            <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-arrow-left-icon lucide-circle-arrow-left"><circle cx="12" cy="12" r="10"/><path d="m12 8-4 4 4 4"/><path d="M16 12H8"/></svg>
+        </div>
+        <div class="main-content">
+            <input type="text" value="Player1"/>
+            <h3>VS</h3>
+            <input type="text" value="Player2"/>
+            <button id="continue-btn" type="submit">continue</button>
+        </div>
+        <div class="settings-btn">
+            <svg id="settings-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+    </div>
+    <div id="difficulty-screen" class="difficulty-screen hidden">
+        <div class="back-btn">
+            <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-arrow-left-icon lucide-circle-arrow-left"><circle cx="12" cy="12" r="10"/><path d="m12 8-4 4 4 4"/><path d="M16 12H8"/></svg>
+        </div>
+        <div class="main-content">
+            <button id="easy">Easy</button>
+            <button id="tough">Tough</button>
+            <button id="unbeatable">Unbeatable</button>
+        </div>
+        <div class="settings-btn">
+            <svg id="settings-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+    </div>
+    <div id="game-screen" class="game-screen hidden">
+        <div class="back-btn">
+            <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-arrow-left-icon lucide-circle-arrow-left"><circle cx="12" cy="12" r="10"/><path d="m12 8-4 4 4 4"/><path d="M16 12H8"/></svg>
+        </div>
+        <div class="main-content">
+            <div class="board">
+                <div class="board-surface" id="board-surface">
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                    <div class="cell" id="cell"></div>
+                </div>
+            </div>
+            <div class="score-card" id="score-card">
+                <div class="x-score">
+                    <div class="score-value">0</div>
+                    <div class="display">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg>
+                        <h3 class="displayName"></h3>
+                    </div>
+                </div>
+                <div class="tie-score">
+                    <div class="score-value">0</div>
+                    <div class="display">
+                        <h3 class="displayName">Ties</h3>
+                    </div>
+                </div>
+                <div class="o-score">
+                    <div class="score-value">0</div>
+                    <div class="display">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                        <h3 class="displayName"></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-btn">
+            <svg id="settings-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+    </div>
+    <div id="settings-screen" class="settings-screen hidden">
+        <div class="back-btn">
+            <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-arrow-left-icon lucide-circle-arrow-left"><circle cx="12" cy="12" r="10"/><path d="m12 8-4 4 4 4"/><path d="M16 12H8"/></svg>
+        </div>
+        <div class="main-content">
+            <button class="theme">Switch Theme 🔆</button>
+            <button class="reset">Reset History</button>
+        </div>
+        <div></div>
+    </div>
+    <div id="game-over-screen" class="game-over-screen hidden">
+        <div id="result-screen">
+            <h1 class="result"></h1>
+            <h3 class="text">Press anywhere to play again.</h3>
+        </div>
+    </div>
+    <script type="module" src="./scripts/state.js"></script>
+    <script src="./scripts/startscreen.js" type="module"></script>
+    <script src="./scripts/playerscreen.js" type="module"></script>
+    <script src="./scripts/difficultyscreen.js" type="module"></script>
+    <script src="./scripts/gameboard.js" type="module"></script>
+    <script src="./scripts/settingscreen.js" type="module"></script>
+</body>
+</html>
