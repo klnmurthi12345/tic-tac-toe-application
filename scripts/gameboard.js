@@ -9,19 +9,21 @@ const playerScreen = document.getElementById("player-screen")
 const settingsBtnStartPage = document.querySelector("#start-screen .settings-btn")
 const settingsPageBackBtn = document.querySelector("#settings-screen #back-btn")
 const switchThemeBtn = document.querySelector(".theme")
-const resetHistory = document.querySelector(".reset")
 const playerBackBtn = document.querySelector("#player-screen #back-btn")
 const playerContinueBtn = document.querySelector("#player-screen #continue-btn")
 const gameScreen = document.getElementById("game-screen")
 const nameInputs = document.querySelectorAll('input[type="text"]')
 const settingsBtnPlayerPage = document.querySelector("#player-screen .settings-btn")
-const gamePageBackBtn = document.querySelector("#game-screen .back-btn")
-const gamePageSettingsBtn = document.querySelector("#game-screen .settings-btn")
+const gamePageBackBtn = document.querySelector("#game-screen #back-btn")
+const newGameBtn = document.querySelector("#game-screen #new-btn")
+const resetScoresBtn = document.querySelector("#reset-score")
+const gamePageSettingsBtn = document.querySelector("#game-screen .settings-btn #settings-btn")
 const DisplayName = document.querySelector(".x-score .displayName")
 const DisplayNameOther = document.querySelector(".o-score .displayName")
 const difficultyBackBtn = document.querySelector("#difficulty-screen #back-btn")
 const settingsBtnDifficultyPage = document.querySelector("#difficulty-screen .settings-btn")
 const difficultyBtns = document.querySelectorAll("#difficulty-screen button")
+const turnIndicator = document.querySelector(".turn-indicator")
 
 gamePageBackBtn.addEventListener(("click"), () => {
     gameScreen.classList.toggle("hidden")
@@ -41,6 +43,21 @@ let xTurn = true
 let gameOver = false
 let xWin = false;
 let tie = false;
+let aiMove = false;
+let wonArr = []
+export let history;
+
+const savedHistory = JSON.parse(localStorage.getItem("history"))
+
+if(savedHistory !== null){
+    history = savedHistory
+}else{
+    history = {
+        easy: [0, 0, 0],
+        tough: [0, 0, 0],
+        unbeatable: [0, 0, 0],
+    }
+}
 
 const cells = document.querySelectorAll("#cell")
 const xScoreValue = document.querySelector(".x-score .score-value")
@@ -49,12 +66,27 @@ const oScoreValue = document.querySelector(".o-score .score-value")
 const gameOverScreen = document.getElementById("game-over-screen")
 const resultMessage = document.querySelector(".game-over-screen #result-screen h1")
 
+function showTurn(xTurn){
+    if(xTurn){
+        turnIndicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg> <p> Turn</p>`
+    }else{
+        turnIndicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg> <p> Turn</p>`
+    }
+}
+
+function highlightCells(arr){
+    cells[arr[0]].style.backgroundColor = "var(--accent)"
+    cells[arr[1]].style.backgroundColor = "var(--accent)"
+    cells[arr[2]].style.backgroundColor = "var(--accent)"
+}
 
 function checkGameOver(boardMatrix){
     for(let i = 0; i < 9; i += 3){
         if(boardMatrix[i] && (boardMatrix[i] === boardMatrix[i+1]) && (boardMatrix[i] === boardMatrix[i+2])){
             gameOver = true
             xWin = (boardMatrix[i] === "x")
+            wonArr = [i, i+1, i+2]
+            highlightCells([i, i+1, i+2])
             return
         }
     }
@@ -62,17 +94,23 @@ function checkGameOver(boardMatrix){
         if(boardMatrix[i] && (boardMatrix[i] === boardMatrix[i+3]) && (boardMatrix[i] === boardMatrix[i+6])){
             gameOver = true
             xWin = (boardMatrix[i] === "x")
+            wonArr = [i, i+3, i+6]
+            highlightCells([i, i+3, i+6])
             return
         }
     }
     if(boardMatrix[0] && (boardMatrix[0] === boardMatrix[4]) && (boardMatrix[0] === boardMatrix[8])){
         gameOver = true
         xWin = (boardMatrix[0] === "x")
+        wonArr = [0, 4, 8]
+        highlightCells([0, 4, 8])
         return
     }
     if(boardMatrix[2] && (boardMatrix[2] === boardMatrix[4]) && (boardMatrix[2] === boardMatrix[6])){
         gameOver = true
         xWin = (boardMatrix[2] === "x")
+        wonArr = [2, 4, 6]
+        highlightCells([2, 4, 6])
         return
     }
     if(boardMatrix.indexOf("") === -1){
@@ -91,14 +129,24 @@ function displayGameOver(){
         tie = false
         resultMessage.textContent = "Draw!"
         tieScoreValue.textContent = String(Number(tieScoreValue.textContent) + 1)
+        if(gameState.chooseAI){
+            history[gameState.computerDifficulty.toLowerCase()][0] += 1; 
+        }
+
     }else{
         if(xWin){
             xWin = false
             resultMessage.textContent = `${DisplayName.textContent} won!`
             xScoreValue.textContent = String(Number(xScoreValue.textContent) + 1)
+            if(gameState.chooseAI){
+                history[gameState.computerDifficulty.toLowerCase()][1] += 1; 
+            }
         }else{
             resultMessage.textContent = `${DisplayNameOther.textContent} won!`
             oScoreValue.textContent = String(Number(oScoreValue.textContent) + 1)
+            if(gameState.chooseAI){
+                history[gameState.computerDifficulty.toLowerCase()][2] += 1; 
+            }
         }
     }
     setTimeout(() => {
@@ -111,14 +159,17 @@ function handleTwoPlayerGame(cell, index){
         cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg>`
         boardMatrix[index] = "x"
         xTurn = !xTurn
+        showTurn()
     }else if(!xTurn && boardMatrix[index] === ""){
         cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`
         boardMatrix[index] = "o"
         xTurn = !xTurn
+        showTurn()
     }
         
     checkGameOver(boardMatrix)
     if(gameOver){
+        turnIndicator.innerHTML = ``
         showGameOverScreen()
         displayGameOver()
     }
@@ -275,55 +326,95 @@ function unbeatableAI(){
 }
 
 function handleAIGame(cell, index){
+    let aiThinking = false;
     //easy ai
     if(gameState.computerDifficulty === "Easy"){
-        if(xTurn && boardMatrix[index] === ""){
+        if(xTurn && boardMatrix[index] === "" && !aiThinking){
+            showTurn()
             cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg>`
             boardMatrix[index] = "x"
             xTurn = !xTurn
             checkGameOver(boardMatrix)
-            easyAI()
+            aiThinking = true;
+
+            if(aiThinking){
+                setTimeout(() => {
+                    easyAI();
+                    aiThinking = false
+                }, 500);
+            }
         }
-        checkGameOver(boardMatrix)
-        if(gameOver){
-            showGameOverScreen()
-            displayGameOver()
-        }
+        setTimeout(() => {
+            checkGameOver(boardMatrix)
+            if(gameOver){
+                turnIndicator.innerHTML = ``
+                showGameOverScreen()
+                displayGameOver()
+            }
+
+            showTurn(xTurn)
+        }, 500)
     }
 
     //tough ai
     if(gameState.computerDifficulty === "Tough"){
-        if(xTurn && boardMatrix[index] === ""){
+        if(xTurn && boardMatrix[index] === "" && !aiThinking){
+            showTurn()
             cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg>`
             boardMatrix[index] = "x"
             xTurn = !xTurn
             checkGameOver(boardMatrix)
-            toughAI()
+            aiThinking = true;
+            if(aiThinking){
+                setTimeout(() => {
+                    toughAI();
+                    aiThinking = false
+                }, 500);
+            }
         }
-        checkGameOver(boardMatrix)
-        if(gameOver){
-            showGameOverScreen()
-            displayGameOver()
-        }
+        setTimeout(() => {
+            checkGameOver(boardMatrix)
+            if(gameOver){
+                turnIndicator.innerHTML = ``
+                showGameOverScreen()
+                displayGameOver()
+            }
+
+            showTurn(xTurn)
+        }, 500)
     }
 
     //unbeatable ai
     if(gameState.computerDifficulty === "Unbeatable"){
-        xTurn = true
-        if(xTurn && boardMatrix[index] === ""){
+        if(xTurn && boardMatrix[index] === "" && !aiThinking){
+            showTurn()
             cell.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="3em" height="3em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10"/></svg>`
             boardMatrix[index] = "x"
             xTurn = false
             checkGameOver(boardMatrix)
-            unbeatableAI()
+            aiThinking = true;
+
+            if(aiThinking){
+                setTimeout(() => {
+                    unbeatableAI();
+                    aiThinking = false
+                }, 500);
+            }
         }
-        checkGameOver(boardMatrix)
-        if(gameOver){
-            showGameOverScreen()
-            displayGameOver()
-        }
+        setTimeout(() => {
+            checkGameOver(boardMatrix)
+            if(gameOver){
+                turnIndicator.innerHTML = ``
+                showGameOverScreen()
+                displayGameOver()
+            }
+
+            showTurn(xTurn)
+        }, 500)
     }
 }
+
+showTurn(xTurn)
 
 cells.forEach((cell, index) => {
     cell.addEventListener("click", () => {
@@ -348,13 +439,37 @@ function completeReset() {
 function boardReset() {
     boardMatrix = ["", "", "", "", "", "", "", "", ""]  
     cells.forEach(cell => cell.innerHTML=``)
+    xTurn = true
+    cells[wonArr[0]].style.backgroundColor = "var(--surface)"
+    cells[wonArr[1]].style.backgroundColor = "var(--surface)"
+    cells[wonArr[2]].style.backgroundColor = "var(--surface)"
+}
+
+function resetScores() {
+    xScoreValue.textContent = "0"
+    tieScoreValue.textContent = "0"
+    oScoreValue.textContent = "0"
 }
 
 gameOverScreen.addEventListener(("click"), () => {
     gameOverScreen.classList.toggle("hidden")
+    if(gameState.computerDifficulty === "Unbeatable"){
+        showTurn(true)
+    }else{
+        showTurn(xTurn)
+    }
     boardReset()
 })
 
 gamePageBackBtn.addEventListener(("click"), () => {
     completeReset()
+})
+
+newGameBtn.addEventListener(("click"), () => {
+    boardReset()
+    showTurn(xTurn)
+})
+
+resetScoresBtn.addEventListener(("click"), () => {
+    resetScores()
 })
